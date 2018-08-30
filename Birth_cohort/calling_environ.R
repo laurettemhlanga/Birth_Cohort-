@@ -1,6 +1,11 @@
 
 
+#set the working directory to where project "Birth_cohort" is  saved  and source the script "Revised_birthcohort.R"
+
+
 source('file:///H:/laurette-phd/Birth_cohort/Revised_birthcohort.R', echo = FALSE)
+
+
 #birth cohort 
 y = Sim_Birth_Cohort(Spline = FALSE)
 
@@ -71,8 +76,9 @@ ggplot(Inci[c(1:10000),], aes(Incidence_PE)) +
 
 RMSE_STDE_BIAS_Cal_1 <- function( N_iterations, min_dT, Max_dT,
                                   TT, sample_size_1 = 10000, Incidence, sample_size_2 = 10000, 
-                                  pop_prevalence = Prop_Prevalence, excess_mortality = 0,
-                                  return_boots = FALSE ){
+                                  pop_prevalence = Prop_Prevalence, excess_mortality = 0.1,
+                                  return_boots = FALSE,
+                                  Delta_t = seq(2, 12,2)){
   survey_intervals = seq(min_dT, Max_dT, 1) 
   N_intervals <- length(survey_intervals)
   #TT = 23
@@ -85,9 +91,9 @@ RMSE_STDE_BIAS_Cal_1 <- function( N_iterations, min_dT, Max_dT,
   for (delta in survey_intervals){
     T1 <- TT - delta
     T2 = TT + delta 
-    rel<- Midpoint_inc_from_prevalence(N_iterations, T1 = T1, T2=T2, 
-                                       sample_size_1 = 10000, sample_size_2 = 10000, 
-                                       pop_prevalence = Prop_Prevalence, excess_mortality = 0.1,
+    rel<- Midpoint_inc_from_prevalence(N_iterations = N_iterations, T1 = T1, T2 = T2, 
+                                       sample_size_1 = sample_size_1, sample_size_2 = sample_size_2 , 
+                                       pop_prevalence = Prop_Prevalence, excess_mortality = excess_mortality,
                                        return_boots = FALSE)
     
     meansInc[counter] <- rel$Incidence_PE[1]
@@ -103,7 +109,7 @@ RMSE_STDE_BIAS_Cal_1 <- function( N_iterations, min_dT, Max_dT,
     }
     counter <- counter + 1
   }
-  return(data.frame(Delta_t = seq(2, 12,2), Bias= (bias/Incidence(TT))*100, RSE = (std_errors/Incidence(TT))*100, RMSE = ((RMSE/Incidence(TT))*100)))
+  return(data.frame(Delta_t = Delta_t, Bias= (bias/Incidence(TT))*100, RSE = (std_errors/Incidence(TT))*100, RMSE = ((RMSE/Incidence(TT))*100)))
 }
 
 
@@ -123,6 +129,7 @@ ggplot(dat0) + geom_smooth(aes(x=Delta_t, y=value, colour= variable), size  = 1)
   geom_hline(yintercept= 5.331276, linetype="dashed", color = "blue", size = 1)+
   labs(x = "Inter-Survey Interval (Years)", y = "Percent", color  = "")+
   theme_bw(base_size = 18, base_family = "") 
+
 
 
 
