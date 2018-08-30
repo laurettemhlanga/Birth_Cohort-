@@ -3,7 +3,7 @@
 #set the working directory to where project "Birth_cohort" is  saved  and source the script "Revised_birthcohort.R"
 
 
-source('file:///H:/laurette-phd/Birth_cohort/Revised_birthcohort.R', echo = FALSE)
+source('file:///H:/Birth_cohort/Birth_cohort/Revised_birthcohort.R', echo = FALSE)
 
 
 #birth cohort 
