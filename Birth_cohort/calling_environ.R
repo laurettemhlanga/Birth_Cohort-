@@ -1,6 +1,7 @@
 
 
 #set the working directory to where project "Birth_cohort" is  saved  and source the script "Revised_birthcohort.R"
+#change the path way to
 
 
 source('file:///H:/Birth_cohort/Birth_cohort/Revised_birthcohort.R', echo = FALSE)
