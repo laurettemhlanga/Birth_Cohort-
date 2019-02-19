@@ -71,7 +71,7 @@ Sim_Birth_Cohort <- function( Mintime = 15, Maxtime = 50, DT = 1,
                               #Pop_initial = c(Susceptible = 1,  Recent = 0, Non_Recent = 0, Infected = 0),
                               #Pop_initial = c(Susceptible = 1, Infected = 0),
                               Pop_initial = c(Susceptible = 1, Recent = 0, Non_Recent = 0),
-                              model_function = NULL,
+                              model_function = NULL, model,
                               Recency = TRUE, Spline = TRUE
 ){
   
@@ -83,7 +83,7 @@ Sim_Birth_Cohort <- function( Mintime = 15, Maxtime = 50, DT = 1,
     Population <- data.frame(lsoda(
       y = Pop_initial,              
       times = seq(Mintime, Maxtime, by = DT),             
-      func = if(is.null(model_function)){base_model_recency},
+      func = base_model_recency,
       parms = NULL))
     Population$Prevalence = (Population$Recent + Population$Non_Recent)/(Population$Susceptible + Population$Recent + Population$Non_Recent)
     Population$Prev_Recency = Population$Recent /(Population$Recent + Population$Non_Recent)
@@ -96,7 +96,7 @@ Sim_Birth_Cohort <- function( Mintime = 15, Maxtime = 50, DT = 1,
     Population <- data.frame(lsoda(
       y = Pop_initial,              
       times = seq(Mintime, Maxtime, by = DT),             
-      func = if(is.null(model_function)){base_model},
+      func = model,
       parms=NULL))
     Population$Prevalence = (Population$Infected)/(Population$Susceptible + Population$Infected)
     #Population = Population[,-3:-4]

@@ -47,7 +47,7 @@ Estimates <- incprops(PrevH = Prop_Prevalence(20), RSE_PrevH = sigma_Prop_Preval
 
  
 #incidence estimation using the change prevalence approach 
-Inci = Midpoint_inc_from_prevalence(N_iterations=10000, T1 = 17, T2 = 23, 
+Inci = Midpoint_inc_from_prevalence(N_iterations=1, T1 = 55, T2 = 60, 
                                     sample_size_1 = 10000, sample_size_2  = 10000,
                                     pop_prevalence = Prop_Prevalence, 
                                     excess_mortality_estimate = Excess_Mortality_var(20), 
